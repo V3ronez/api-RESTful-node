@@ -2,6 +2,7 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
+import './src/database/connection';
 import express from 'express';
 import home from './src/routes/Api/homeRoutes';
 
