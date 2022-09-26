@@ -33,7 +33,7 @@ export default class User extends Model {
         validate: {
           len: {
             args: [6, 50],
-            msg: 'name must be between 6 and 50 characters',
+            msg: 'password must be between 6 and 50 characters',
           },
         },
       },
@@ -41,7 +41,10 @@ export default class User extends Model {
 
     this.addHook('beforeSave', async (user) => {
       // eslint-disable-next-line no-param-reassign
-      user.password_hash = await bcryptjs.hash(user.password, 8);
+      if (user.password) {
+        // eslint-disable-next-line no-param-reassign
+        user.password_hash = await bcryptjs.hash(String(user.password), 8);
+      }
     });
     return this;
   }
