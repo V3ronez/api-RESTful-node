@@ -30,7 +30,7 @@ export default new class UserController {
     } catch (error) {
       return res.status(400).json({
         sucecss: false,
-        errors: 'There are no registered users',
+        errors: ['There are no registered users'],
       });
     }
   }
@@ -41,7 +41,7 @@ export default new class UserController {
       if (!user) {
         return res.status(404).json({
           success: false,
-          error: 'user not found',
+          error: ['user not found'],
         });
       }
       return res.status(200).json({
@@ -51,7 +51,7 @@ export default new class UserController {
     } catch (error) {
       return res.status(404).json({
         success: false,
-        error: 'User not found',
+        error: ['User not found'],
       });
     }
   }
