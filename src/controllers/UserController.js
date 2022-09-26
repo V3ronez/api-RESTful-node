@@ -4,9 +4,12 @@ export default new class UserController {
   async create(req, res) {
     try {
       const user = await User.create(req.body);
+      const { id, name, email } = user;
       return res.json({
         success: true,
-        user,
+        id,
+        name,
+        email,
       });
     } catch (error) {
       return res.status(400).json({
@@ -38,6 +41,7 @@ export default new class UserController {
   async show(req, res) {
     try {
       const user = await User.findByPk(req.params.id);
+      const { id, name, email } = user;
       if (!user) {
         return res.status(404).json({
           success: false,
@@ -46,7 +50,9 @@ export default new class UserController {
       }
       return res.status(200).json({
         success: true,
-        user,
+        id,
+        name,
+        email,
       });
     } catch (error) {
       return res.status(404).json({
@@ -57,15 +63,8 @@ export default new class UserController {
   }
 
   async update(req, res) {
-    if (!req.params.id) {
-      return res.status(400).json({
-        success: false,
-        errors: ['ID is required'],
-      });
-    }
-
     try {
-      const user = await User.findByPk(req.params.id);
+      const user = await User.findByPk(req.userId);
       if (!user) {
         return res.status(400).json({
           success: false,
@@ -87,14 +86,8 @@ export default new class UserController {
   }
 
   async delete(req, res) {
-    if (!req.params.id) {
-      return res.status(400).json({
-        success: false,
-        error: ['ID is required'],
-      });
-    }
     try {
-      const user = await User.findByPk(req.params.id);
+      const user = await User.findByPk(req.userId);
       if (!user) {
         return res.status(404).json({
           success: false,

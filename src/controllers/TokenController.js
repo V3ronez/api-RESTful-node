@@ -29,6 +29,7 @@ export default new class TokenController {
     const token = jwt.sign({ email, id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRATION,
     });
+
     return res.json({ success: true, token });
   }
 }();
