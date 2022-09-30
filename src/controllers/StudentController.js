@@ -6,7 +6,7 @@ export default new class StudentController {
       attributes:
       {
         exclude:
-          ['id', 'created_at', 'updated_at'],
+          ['created_at', 'updated_at'],
       },
     });
     res.json(students);
@@ -66,10 +66,17 @@ export default new class StudentController {
         });
       }
       const study = await Student.findByPk(id);
+      if (!study) {
+        return res.status(404).json({
+          success: false,
+          errors: ['Study not found'],
+        });
+      }
 
+      const newStudy = await study.update(req.body);
       return res.status(200).json({
         success: true,
-        study,
+        newStudy,
       });
     } catch (error) {
       return res.status(400).json({
@@ -89,10 +96,10 @@ export default new class StudentController {
         });
       }
       const study = await Student.findByPk(id);
-
+      study.destroy();
       return res.status(200).json({
         success: true,
-        study,
+        study_delted: study,
       });
     } catch (error) {
       return res.status(400).json({
