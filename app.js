@@ -2,6 +2,7 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
+import { resolve } from 'path';
 import './src/database/connection';
 import express from 'express';
 import homeRoutes from './src/routes/Api/homeRoutes';
@@ -20,6 +21,7 @@ class App {
   middlewares() {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
+    this.app.use(express.static(resolve(__dirname, 'upload', 'images')));
   }
 
   routes() {

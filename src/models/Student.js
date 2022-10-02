@@ -46,4 +46,8 @@ export default class Student extends Model {
     });
     return this;
   }
+
+  static associate(models) {
+    return this.hasMany(models.Photo, { foreignKey: 'student_id' });
+  }
 }

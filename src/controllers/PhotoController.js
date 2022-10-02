@@ -17,12 +17,20 @@ export default new class PhotoController {
       const originalName = req.file.originalname;
       const fileName = req.file.filename;
       const studentId = req.body.student_id;
-      const file = await Photo.create({
-        original_name: originalName,
-        file_name: fileName,
-        student_id: studentId,
-      });
-      return res.json(file);
+
+      try {
+        const file = await Photo.create({
+          original_name: originalName,
+          file_name: fileName,
+          student_id: studentId,
+        });
+        return res.json(file);
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          errors: ['This student id is not valid'],
+        });
+      }
     });
   }
 }();

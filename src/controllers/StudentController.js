@@ -1,12 +1,14 @@
+import Photo from '../models/Photo';
 import Student from '../models/Student';
 
 export default new class StudentController {
   async index(req, res) {
     const students = await Student.findAll({
-      attributes:
-      {
-        exclude:
-          ['created_at', 'updated_at'],
+      attributes: ['id', 'name', 'last_name', 'email', 'age'],
+      order: [['id', 'DESC'], [Photo, 'id', 'DESC']],
+      include: {
+        attributes: ['id', 'original_name', 'file_name'],
+        model: Photo,
       },
     });
     res.json(students);
@@ -42,7 +44,14 @@ export default new class StudentController {
           error: ['id student is missing'],
         });
       }
-      const study = await Student.findByPk(id);
+      const study = await Student.findByPk(id, {
+        attributes: ['id', 'name', 'last_name', 'email', 'age'],
+        order: [['id', 'DESC'], [Photo, 'id', 'DESC']],
+        include: {
+          attributes: ['id', 'original_name', 'file_name'],
+          model: Photo,
+        },
+      });
 
       return res.status(200).json({
         success: true,
